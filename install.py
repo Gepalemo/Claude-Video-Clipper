@@ -1,6 +1,8 @@
 """One-time setup: creates a private Python environment (.venv) and checks your tools.
 
     python install.py            # Python deps + checks
+    python install.py --studio   # pipeline de production originale seulement (sans yt-dlp)
+    python install.py --dev      # + outils de test / audit (pytest, pip-audit)
     python install.py --remotion # also install the optional Remotion edit engine (needs Node.js)
 
 Safe to run again at any time.
@@ -61,10 +63,14 @@ def main():
         venv.create(VENV, with_pip=True)
     print('-> installing Python packages (first time takes a few minutes) ...')
     subprocess.run([str(PY), '-m', 'pip', 'install', '--upgrade', 'pip', '-q'], check=False)
-    r = subprocess.run([str(PY), '-m', 'pip', 'install', '-q', '-r', str(ROOT / 'requirements.txt')])
+    studio = '--studio' in sys.argv or '--dev' in sys.argv
+    req = 'requirements-dev.txt' if '--dev' in sys.argv else ('requirements-studio.txt' if studio else 'requirements.txt')
+    r = subprocess.run([str(PY), '-m', 'pip', 'install', '-q', '-r', str(ROOT / req)])
     if r.returncode != 0:
         ok = False
         print('[X] pip install failed (see the error above).')
+    elif studio:
+        print(f'[ok] Python packages ({req})')
     else:
         # YouTube changes often; keeping yt-dlp current fixes most download errors
         subprocess.run([str(PY), '-m', 'pip', 'install', '-q', '-U', 'yt-dlp[default]'], check=False)
@@ -83,7 +89,8 @@ def main():
             print('[ok] Remotion engine' if r.returncode == 0 else '[X] npm install failed')
 
     print()
-    print('Setup complete. Ask Claude:  clip this video: <youtube link>' if ok
+    print(('Setup complete. Next:  python run.py prod -h   (guide: docs/PIPELINE_PRODUCTION.md)' if studio else
+           'Setup complete. Ask Claude:  clip this video: <youtube link>') if ok
           else 'Setup finished with problems, fix the [X] items above and run again.')
     sys.exit(0 if ok else 1)
 
