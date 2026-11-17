@@ -90,12 +90,14 @@ def aligner_texte(texte, mots):
 
 
 def fusionner_elisions(mots):
-    """Whisper découpe souvent les élisions françaises : « l » + « 'eau » -> « l'eau »."""
+    """Whisper découpe souvent les élisions françaises (« l » + « 'eau » -> « l'eau ») et la ponctuation."""
     out = []
     for w in mots:
         t = w['w'].strip()
         if out and t[:1] in "'’" and w['s'] - out[-1]['e'] < 0.3:
             out[-1] = {**out[-1], 'w': out[-1]['w'] + "'" + t[1:], 'e': w['e']}
+        elif out and t and not _tok(t) and not re.search(r'\d', t):   # ponctuation isolée : « trucs » + « ? »
+            out[-1] = {**out[-1], 'w': out[-1]['w'] + t, 'e': max(out[-1]['e'], w['e'])}
         else:
             out.append(dict(w))
     return out

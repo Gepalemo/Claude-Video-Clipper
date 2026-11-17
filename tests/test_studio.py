@@ -173,6 +173,15 @@ def test_corrections_et_elisions():
     assert [w['w'] for w in m] == ["l'eau", 'de', 'pluie.']
 
 
+def test_ponctuation_isolee_et_chiffres():
+    mots = [{'w': 'Les', 's': 0, 'e': 0.2}, {'w': 'trucs', 's': 0.2, 'e': 0.5}, {'w': '?', 's': 0.5, 'e': 0.5},
+            {'w': 'Parce', 's': 0.6, 'e': 0.8}, {'w': 'ces', 's': 1.0, 'e': 1.1}, {'w': '3', 's': 1.1, 'e': 1.2},
+            {'w': ',1', 's': 1.2, 'e': 1.3}, {'w': 'millions', 's': 1.3, 'e': 1.6}]
+    m = timeline.corriger(timeline.fusionner_elisions(mots), {'Les trucs ? Parce': "Le truc, c'est",
+                                                             '3 ,1 millions': '3,8 millions'})
+    assert ' '.join(w['w'] for w in m) == "Le truc, c'est ces 3,8 millions"
+
+
 def test_affirmations():
     f = timeline.affirmations("Selon une étude, 86 % de l'évaporation vient des océans. J'aime la pluie.")
     assert len(f) == 1 and '86' in f[0]
