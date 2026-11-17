@@ -13,6 +13,24 @@ creator's brand colours, and a couple of subtle whooshes.
 
 ---
 
+## 🇫🇷 Pipeline de production originale (`studio/`)
+
+Ce fork ajoute un pipeline local pour produire des vidéos verticales **originales** de 65 à 100 s (1080x1920) :
+import de sources dont vous détenez les droits avec leurs justificatifs de licence, transcription Whisper,
+suggestion de passages, script de commentaire, **votre narration**, recadrage 9:16, sous-titres,
+**validation humaine obligatoire**, export sans filigrane, métadonnées par plateforme, journal et suivi CSV.
+Pas de publication automatique.
+
+```bash
+python install.py --studio
+python run.py prod -h
+```
+
+➡️ Guide complet : [`docs/PIPELINE_PRODUCTION.md`](docs/PIPELINE_PRODUCTION.md) · Audit licence, dépendances
+et sécurité : [`docs/AUDIT.md`](docs/AUDIT.md)
+
+---
+
 ## What you need
 | | |
 |---|---|

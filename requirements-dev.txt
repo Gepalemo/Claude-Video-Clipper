@@ -1,0 +1,5 @@
+# Outils de test et d'audit (facultatifs)
+-r requirements-studio.txt
+pytest>=8,<10
+pip-audit>=2.7,<3
+pyflakes>=3,<4

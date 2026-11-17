@@ -4,6 +4,7 @@
     python run.py cut <project>                          cut the picked clips to 9:16
     python run.py edit <project> [--engine python|remotion] [--clips 1,3]
     python run.py find <project> "exact phrase"          word-accurate time of a phrase
+    python run.py prod <commande> ...                    pipeline de production originale (python run.py prod -h)
 
 Run `python run.py <command> -h` for the options of each step.
 """
@@ -21,6 +22,7 @@ COMMANDS = {
     'brand': 'clipper.brand',
     'edit': 'clipper.edit',
     'find': 'clipper.find',
+    'prod': 'studio.cli',     # pipeline de production originale (voir studio/cli.py)
 }
 
 

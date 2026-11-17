@@ -1,0 +1,7 @@
+# Dépendances du pipeline de production originale (studio/). Sources locales uniquement :
+# pas de yt-dlp. Bornes supérieures pour éviter une mise à jour majeure non testée.
+# Versions testées : faster-whisper 1.2.1, numpy 2.5.5, opencv-python 5.0.0.93, soundfile 0.14.0
+faster-whisper>=1.1.0,<2
+soundfile>=0.12,<1
+numpy>=1.26,<3
+opencv-python>=4.10,<6
